@@ -1,34 +1,24 @@
 #!/bin/sh
 
 if [ "$1" == "package" ]; then
-  lein compile
-  lein uberjar
-  mv maru-maru-standalone.jar bin/ghost/"$2".jar
-  rm maru-maru.jar
+  if [ "$2" == "" ]; then
+    echo "maru package [ghost name]"
+  else
+    lein compile
+    lein uberjar
+    mkdir bin/ghost
+    mv maru-maru-standalone.jar bin/ghost/"$2".jar
+    rm maru-maru.jar
+  fi
 elif [ "$1" == "launch" ]; then
-  java -jar bin/shell/gogui.jar -program "java -jar bin/ghost/$2.jar" -computer-black
+  if [ "$2" == "" ]; then
+    echo "maru launch [ghost name]"
+  else
+    java -jar bin/shell/gogui.jar -program "java -jar bin/ghost/$2.jar" -computer-black
+  fi
+elif [ "$1" == "cleanup" ]; then
+  rm -rf bin/ghost/*
+else
+  echo "maru package [ghost name]"
+  echo "maru launch [ghost name]"
 fi
-
-#!/bin/sh
-
-# if [ "$1" == "package" ]; then
-#   if ["$2" == ""]; then
-#     echo "maru package [ghost name]"
-#   else
-#     lein compile
-#     lein uberjar
-#     mv maru-maru-standalone.jar bin/ghost/"$2".jar
-#     rm maru-maru.jar
-#   fi
-# elif [ "$1" == "launch" ]; then
-#   if ["$2" == ""]; then
-#     echo "maru launch [ghost name]"
-#   else
-#     java -jar bin/shell/gogui.jar -program "java -jar bin/ghost/$2.jar" -computer-black
-#   fi
-# elif [ "$1" == "cleanup" ]; then
-#   rm -rf bin/ghost/*
-# else
-#   echo "maru package [ghost name]"
-#   echo "maru launch [ghost name]"
-# fi
