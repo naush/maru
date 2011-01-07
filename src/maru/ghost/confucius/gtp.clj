@@ -1,5 +1,5 @@
-(ns maru.ghost.dummy.gtp
-  (:require [maru.ghost.dummy.core :as ghost] :reload)
+(ns maru.ghost.confucius.gtp
+  (:require [maru.ghost.confucius.core :as ghost] :reload)
   (:require [maru.common.gtp.core :as gtp] :reload)
   (:gen-class))
 
