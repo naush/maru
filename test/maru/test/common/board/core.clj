@@ -1,4 +1,5 @@
 (ns maru.test.common.board.core
+  (:refer-clojure :exclude [empty])
   (:use [maru.common.board.core] :reload)
   (:use [clojure.test]))
 
@@ -64,12 +65,17 @@
 
 (deftest play-at-pos-with-black
   (reset 9)
-  (is (= black (nth (play 0 black) 0))))
+  (is (= black (nth (play empty 0 black) 0))))
 
 (deftest play-white-at-pos
   (reset 9)
-  (is (= white (nth (play-white 0) 0))))
+  (is (= white (nth (play-white empty 0) 0))))
+
+(deftest play-multiple-moves
+  (let [current-board (reduce #(play-white %1 %2) empty '(0 1))]
+    (is (= 2 (nth current-board 0)))
+    (is (= 2 (nth current-board 1)))))
 
 (deftest reset-board-with-size-nine
   (reset 9)
-  (is (= 81 (count board))))
+  (is (= 81 (count empty))))

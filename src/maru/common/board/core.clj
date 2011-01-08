@@ -1,4 +1,4 @@
-(ns maru.common.board.core)
+(ns maru.common.board.core (:refer-clojure :exclude [empty]))
 
 (def gray 0)
 
@@ -8,11 +8,11 @@
 
 (def size 19)
 
-(def board (vec (repeat (* size size) gray)))
+(def empty (vec (repeat (* size size) gray)))
 
 (defn reset [size]
   (def size size)
-  (def board (vec (repeat (* size size) gray))))
+  (def empty (vec (repeat (* size size) gray))))
 
 (defn to-pos [x y] (+ x (* y size)))
 
@@ -20,8 +20,8 @@
 
 (defn to-y [pos] (int (/ pos size)))
 
-(defn play [pos color] (assoc board pos color))
+(defn play [board pos color] (assoc board pos color))
 
-(defn play-black [pos] (assoc board pos black))
+(defn play-black [board pos] (play board pos black))
 
-(defn play-white [pos] (assoc board pos white))
+(defn play-white [board pos] (play board pos white))
