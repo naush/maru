@@ -1,0 +1,1 @@
+[GoGui](http://gogui.sourceforge.net/) is developed by Markus Enzenberger and distributed under [GNU General Public License](http://www.gnu.org/copyleft/gpl.html).
