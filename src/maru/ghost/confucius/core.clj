@@ -1,9 +1,10 @@
 (ns maru.ghost.confucius.core
   (:refer-clojure :exclude [name])
-  (:require [maru.common.board.core :as board] :reload)
-  (:require [maru.common.game.info :as info] :reload)
+  (:require [maru.common.game.board.core :as board] :reload)
+  (:require [maru.common.game.stone.core :as stone] :reload)
+  (:require [maru.common.game.info.core :as info] :reload)
   (:require [maru.common.gtp.core :as gtp] :reload)
-  (:require [maru.common.utility.core :only [string-to-integer] :as utility] :reload))
+  (:require [maru.common.utility.core :only [string-to-digit] :as utility]))
 
 (defn random-move-generator [color]
   (let [max info/size]
@@ -11,8 +12,12 @@
 
 (defn name [] (str "Confucius"))
 (defn version [] (str "2.0"))
-(defn boardsize [size] (info/set-size (utility/string-to-integer size)))
+(defn boardsize [size]
+  (let [size (utility/string-to-digit size)]
+    (board/reset size)
+    (info/set-board board/empty)
+    (info/set-size size)))
 (defn komi [points] (info/set-komi points))
-(defn play [color position] (str "set " color " at " position))
+(defn play [color position] (info/set-board (board/play info/board (board/pos-from-string position) (board/string-to-color color))) (str info/board))
 (defn clear-board [] (str ""))
-(defn genmove [color] (random-move-generator color)) ; return a string of letter and digit, eg. H12
+(defn genmove [color] (random-move-generator color))

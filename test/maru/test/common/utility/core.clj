@@ -15,7 +15,7 @@
   (is (= "bc" (remove-string-upto "abc" 1))))
 
 (deftest convert-char-to-digit
-  (is (= 7 (char-to-digit (nth "H12" 0)))))
+  (is (= 7 (letter-to-digit (nth "H12" 0)))))
 
 (deftest convert-string-to-integer
-  (is (= 12 (string-to-integer "12"))))
+  (is (= 12 (string-to-digit "12"))))

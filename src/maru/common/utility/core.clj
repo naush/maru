@@ -13,6 +13,6 @@
 
 (defn insert-last [ls elm] (concat ls (list elm)))
 
-(defn char-to-digit [ch] (- (int ch) 65))
+(defn letter-to-digit [ch] (- (int ch) 65))
 
-(defn string-to-integer [s] (Integer/parseInt s))
+(defn string-to-digit [s] (Integer/parseInt s))
