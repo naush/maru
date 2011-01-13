@@ -28,23 +28,35 @@
 
 (defn to-y [pos] (- (dec size) (int (/ pos size))))
 
-(defn play [board pos color] (assoc board pos color))
+(defn set-stone [board pos color] (assoc board pos color))
 
-(defn play-black [board pos] (play board pos black))
+(defn set-black [board pos] (set-stone board pos black))
 
-(defn play-white [board pos] (play board pos white))
+(defn set-white [board pos] (set-stone board pos white))
 
 (defn color [board pos] (nth board pos))
 
-(defn out-of-bound [pos]
-  (let [size (dec size)
-	    x (to-x pos)
-        y (to-y pos)]
-    (if (or (< x 0) (> x size)
-            (< y 0) (> y size))
-      true false)))
+(defn out-of-bound [x y]
+  (let [size (dec size)]
+    (or (< x 0) (> x size) (< y 0) (> y size))))
+
+(defn find-neighbors [pos]
+  (let [x (to-x pos)
+        y (int (/ pos size))
+        north [x (dec y)]
+        east [(inc x) y]
+        south [x (inc y)]
+        west [(dec x) y]]
+    (set (map #(+ (first %1) (* (second %1) size))
+      (filter #(not (out-of-bound (first %1) (second %1)))
+        (list north east south west))))))
 
 (defn pos-from-string [string]
   (let [x (utility/letter-to-digit (first string))
         y (utility/string-to-digit (utility/remove-string-upto string 1))]
   (to-pos x y)))
+
+(defn string-from-pos [pos]
+  (let [x (to-x pos)
+        y (to-y pos)]
+  (str (utility/digit-to-letter x) (inc y))))

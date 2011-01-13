@@ -15,4 +15,8 @@
 
 (defn letter-to-digit [ch] (- (int ch) 65))
 
+(defn digit-to-letter [d] (char (+ 65 d)))
+
 (defn string-to-digit [s] (Integer/parseInt s))
+
+(defn !contains [container element] (not (.contains container element)))

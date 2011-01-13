@@ -63,14 +63,14 @@
   (reset 9)
   (is (= 0 (to-y 80))))
 
-(deftest play-at-pos-with-black
-  (is (= black (nth (play empty 0 black) 0))))
+(deftest set-stone-at-pos-with-black
+  (is (= black (nth (set-stone empty 0 black) 0))))
 
-(deftest play-white-at-pos
-  (is (= white (nth (play-white empty 0) 0))))
+(deftest set-white-stone-at-pos
+  (is (= white (nth (set-white empty 0) 0))))
 
-(deftest play-multiple-moves
-  (let [current-board (reduce #(play-white %1 %2) empty '(0 1))]
+(deftest set-multiple-stones
+  (let [current-board (reduce #(set-white %1 %2) empty '(0 1))]
     (is (= 2 (nth current-board 0)))
     (is (= 2 (nth current-board 1)))))
 
@@ -79,18 +79,30 @@
   (is (= 81 (count empty))))
 
 (deftest check-color-at-pos
-  (is (= white (color (play-white empty 0) 0))))
-
-(deftest check-pos-out-of-bound
-  (reset 9)
-  (is (= true (out-of-bound -1))))
+  (is (= white (color (set-white empty 0) 0))))
 
 (deftest convert-string-to-position
   (reset 19)
   (is (= 140 (pos-from-string "H12"))))
+
+(deftest convert-position-to-string
+  (reset 19)
+  (is (= "H12" (string-from-pos 140))))
 
 (deftest convert-string-to-color
   (is (= white (string-to-color "W")))
   (is (= white (string-to-color "w")))
   (is (= black (string-to-color "B")))
   (is (= black (string-to-color "b"))))
+
+(deftest find-neighbors-at-upper-left-corner
+  (reset 5)
+  (is (= (set [1 5]) (find-neighbors 0))))
+
+(deftest find-neighbors-at-lower-right-corner
+  (reset 5)
+  (is (= (set [19 23]) (find-neighbors 24))))
+
+(deftest find-four-neighbors
+  (reset 5)
+  (is (= (set [1 5 7 11]) (find-neighbors 6))))

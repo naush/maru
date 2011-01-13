@@ -9,6 +9,6 @@
 (gtp/make-boardsize-command #(ghost/boardsize (first %1)))
 (gtp/make-play-command #(ghost/play (first %1) (second %1)))
 (gtp/make-clear-board-command #(ghost/clear-board))
-(gtp/make-genmove-command #(ghost/genmove %1))
+(gtp/make-genmove-command #(ghost/genmove (first %1)))
 
 (defn -main [& args] (gtp/console))
