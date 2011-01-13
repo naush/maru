@@ -37,3 +37,9 @@
 
 (deftest set-not-contains-element
   (is (= false (!contains (set [1 2 3]) 1))))
+
+(deftest convert-string-to-position
+  (is (= 140 (pos-from-string "H12" 19))))
+
+(deftest convert-position-to-string
+  (is (= "H12" (string-from-pos 140 19))))

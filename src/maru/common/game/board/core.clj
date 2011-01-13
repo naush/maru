@@ -22,11 +22,11 @@
   (def size size)
   (def empty (vec (repeat (* size size) gray))))
 
-(defn to-pos [x y] (+ x (* (- size y) size)))
+(defn to-pos [x y] (+ x (* y size)))
 
 (defn to-x [pos] (rem pos size))
 
-(defn to-y [pos] (- (dec size) (int (/ pos size))))
+(defn to-y [pos] (int (/ pos size)))
 
 (defn set-stone [board pos color] (assoc board pos color))
 
@@ -50,13 +50,3 @@
     (set (map #(+ (first %1) (* (second %1) size))
       (filter #(not (out-of-bound (first %1) (second %1)))
         (list north east south west))))))
-
-(defn pos-from-string [string]
-  (let [x (utility/letter-to-digit (first string))
-        y (utility/string-to-digit (utility/remove-string-upto string 1))]
-  (to-pos x y)))
-
-(defn string-from-pos [pos]
-  (let [x (to-x pos)
-        y (to-y pos)]
-  (str (utility/digit-to-letter x) (inc y))))

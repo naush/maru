@@ -4,7 +4,7 @@
   (:require [maru.common.game.stone.core :as stone] :reload)
   (:require [maru.common.game.info.core :as info] :reload)
   (:require [maru.common.gtp.core :as gtp] :reload)
-  (:require [maru.common.utility.core :only [string-to-digit] :as utility]))
+  (:require [maru.common.utility.core :as utility]))
 
 (defn random-move-generator [color]
   (let [max info/size]
@@ -23,7 +23,7 @@
 (defn komi [points] (info/set-komi points))
 
 (defn play [color position]
-  (let [pos (board/pos-from-string position)
+  (let [pos (utility/pos-from-string position board/size)
         color (board/string-to-color color)
         new-board (board/set-stone info/board pos color)]
     (info/set-board new-board) (str new-board)))
@@ -33,5 +33,5 @@
 (defn genmove [color]
   (let [move (random-move-generator color)
         color (board/string-to-color color)
-        pos (board/pos-from-string move)]
+        pos (utility/pos-from-string move board/size)]
     (info/set-board (board/set-stone info/board pos color)) move))

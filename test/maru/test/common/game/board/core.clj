@@ -5,23 +5,23 @@
 
 (deftest convert-x-min-y-min-to-pos
   (reset 9)
-  (is (= 81 (to-pos 0 0))))
+  (is (= 0 (to-pos 0 0))))
 
 (deftest convert-x-one-y-min-to-pos
   (reset 9)
-  (is (= 82 (to-pos 1 0))))
+  (is (= 1 (to-pos 1 0))))
 
 (deftest convert-x-max-y-min-to-pos
   (reset 9)
-  (is (= 89 (to-pos 8 0))))
+  (is (= 8 (to-pos 8 0))))
 
 (deftest convert-x-max-y-one-to-pos
   (reset 9)
-  (is (= 80 (to-pos 8 1))))
+  (is (= 17 (to-pos 8 1))))
 
 (deftest convert-x-max-y-max-to-pos
   (reset 9)
-  (is (= 17 (to-pos 8 8))))
+  (is (= 80 (to-pos 8 8))))
 
 (deftest convert-pos-min-to-x
   (reset 9)
@@ -45,23 +45,23 @@
 
 (deftest convert-pos-min-to-y
   (reset 9)
-  (is (= 8 (to-y 0))))
+  (is (= 0 (to-y 0))))
 
 (deftest convert-pos-one-to-y
   (reset 9)
-  (is (= 8 (to-y 1))))
+  (is (= 0 (to-y 1))))
 
 (deftest convert-pos-max-to-y
   (reset 9)
-  (is (= 8 (to-y 8))))
+  (is (= 0 (to-y 8))))
 
 (deftest convert-pos-max-plus-one-to-y
   (reset 9)
-  (is (= 7 (to-y 9))))
+  (is (= 1 (to-y 9))))
 
 (deftest convert-pos-max-times-max-to-y
   (reset 9)
-  (is (= 0 (to-y 80))))
+  (is (= 8 (to-y 80))))
 
 (deftest set-stone-at-pos-with-black
   (is (= black (nth (set-stone empty 0 black) 0))))
@@ -80,14 +80,6 @@
 
 (deftest check-color-at-pos
   (is (= white (color (set-white empty 0) 0))))
-
-(deftest convert-string-to-position
-  (reset 19)
-  (is (= 140 (pos-from-string "H12"))))
-
-(deftest convert-position-to-string
-  (reset 19)
-  (is (= "H12" (string-from-pos 140))))
 
 (deftest convert-string-to-color
   (is (= white (string-to-color "W")))

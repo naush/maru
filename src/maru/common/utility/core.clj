@@ -20,3 +20,13 @@
 (defn string-to-digit [s] (Integer/parseInt s))
 
 (defn !contains [container element] (not (.contains container element)))
+
+(defn pos-from-string [string size]
+  (let [x (letter-to-digit (first string))
+        y (string-to-digit (remove-string-upto string 1))]
+  (+ x (* (- size y) size))))
+
+(defn string-from-pos [pos size]
+  (let [x (rem pos size)
+        y (- (dec size) (int (/ pos size)))]
+  (str (digit-to-letter x) (inc y))))
