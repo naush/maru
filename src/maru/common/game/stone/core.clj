@@ -1,4 +1,4 @@
 (ns maru.common.game.stone.core)
 
-(defn craft [pos color]
-  (hash-map :pos pos :color color))
+(defn craft [point color]
+  (hash-map :point point :color color))

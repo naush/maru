@@ -1,5 +1,5 @@
-(ns maru.test.common.game.info.core
-  (:use [maru.common.game.info.core] :reload)
+(ns maru.test.common.game.state.core
+  (:use [maru.common.game.state.core] :reload)
   (:require [maru.common.game.board.core :as board])
   (:use [clojure.test]))
 

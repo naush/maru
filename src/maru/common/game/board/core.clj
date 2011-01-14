@@ -1,52 +1,51 @@
 (ns maru.common.game.board.core
   (:refer-clojure :exclude [empty])
+  (:require [maru.common.game.state.core :as state])
   (:require [maru.common.utility.core :as utility]))
 
-(def gray 0)
+(def open 0)
 
 (def black 1)
 
 (def white 2)
 
-(def size 19)
+(def empty (vec (repeat (* state/size state/size) open)))
 
-(defn string-to-color [string]
-  (cond
-    (or (= "b" string) (= "B" string)) black
-    (or (= "w" string) (= "W" string)) white
-    :else gray))
+(defn to-point [x y] (+ x (* y state/size)))
 
-(def empty (vec (repeat (* size size) gray)))
+(defn to-x [point] (rem point state/size))
 
-(defn reset [size]
-  (def size size)
-  (def empty (vec (repeat (* size size) gray))))
+(defn to-y [point] (int (/ point state/size)))
 
-(defn to-pos [x y] (+ x (* y size)))
+(defn set-stone [board point color] (assoc board point color))
 
-(defn to-x [pos] (rem pos size))
+(defn set-black [board point] (set-stone board point black))
 
-(defn to-y [pos] (int (/ pos size)))
+(defn set-white [board point] (set-stone board point white))
 
-(defn set-stone [board pos color] (assoc board pos color))
+(defn remove-stone [board point] (assoc board point open))
 
-(defn set-black [board pos] (set-stone board pos black))
+(defn set-stones [board stones] (reduce #(set-stone %1 (:point %2) (:color %2)) board stones))
 
-(defn set-white [board pos] (set-stone board pos white))
+(defn remove-stones [board stones]
+  (if (empty? stones) board
+    (reduce #(remove-stone %1 %2) board stones)))
 
-(defn color [board pos] (nth board pos))
+(defn color [board point] (nth board point))
+
+(defn open? [board x y] (= open (nth board (to-point x y))))
 
 (defn out-of-bound [x y]
-  (let [size (dec size)]
+  (let [size (dec state/size)]
     (or (< x 0) (> x size) (< y 0) (> y size))))
 
-(defn find-neighbors [pos]
-  (let [x (to-x pos)
-        y (int (/ pos size))
+(defn find-neighbors [point]
+  (let [x (to-x point)
+        y (int (/ point state/size))
         north [x (dec y)]
         east [(inc x) y]
         south [x (inc y)]
         west [(dec x) y]]
-    (set (map #(+ (first %1) (* (second %1) size))
+    (set (map #(+ (first %1) (* (second %1) state/size))
       (filter #(not (out-of-bound (first %1) (second %1)))
         (list north east south west))))))

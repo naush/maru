@@ -48,7 +48,7 @@
   (is (= [{:B "ae"} {:W "bf"} {:B "ag"} {:W "bd"}]
          (dump-moves (parse "(;B[ae];W[bf](;B[ag];W[bd]))")))))
 
-(deftest dump-moves-from-node-with-add-stones-property
+(deftest dump-moves-from-node-with-set-stones-property
   (is (= [{:B "bb"} {:B "cb"} {:W "ww"} {:W "cc"} {:B "ae"} {:W "bf"}]
          (dump-moves (parse "(AB[bb][cb];AW[ww][cc];B[ae];W[bf])")))))
 

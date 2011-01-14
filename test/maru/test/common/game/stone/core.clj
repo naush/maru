@@ -6,7 +6,7 @@
   (let [stone (craft 0 0)]
     (is (= 0 (:color stone)))))
 
-(deftest make-stone-with-color-and-pos
+(deftest make-stone-with-color-and-point
   (let [stone (craft 0 0)]
     (is (= 0 (:color stone)))
-    (is (= 0 (:pos stone)))))
+    (is (= 0 (:point stone)))))

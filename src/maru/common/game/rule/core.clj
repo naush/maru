@@ -1,19 +1,31 @@
-(ns maru.common.game.rule.core)
+(ns maru.common.game.rule.core
+  (:require [maru.common.game.board.core :as board])
+  (:require [maru.common.game.group.core :as group])
+  (:require [maru.common.game.state.core :as state]))
 
-; Given current board and color of player, return a list of all legal moves on the board, excluding "Ko".
-; Definition of Ko: http://senseis.xmp.net/?Ko
-; (defn find-all-legal [board color] '())
+(defn dead? [group] (= (count (:liberties group)) 0))
 
-; Given current board, color and position of a stone, return a list of stones to be captured/removed from board.
-; Definition of capture: http://senseis.xmp.net/?Capture
-; (defn capture-stones [board color position] '())
+(defn alive? [group] (not (dead? group)))
 
-; Given current board, color and position of a stone, count the number of its liberties.
-; Definition of a liberty: http://senseis.xmp.net/?Liberty
-; Definition of a group: http://senseis.xmp.net/?Group
-; (defn liberty-count [board color pos] count)
+(defn suicide? [board x y color]
+  (let [point (board/to-point x y)
+        current-board (board/set-stone board point color)
+        enemies (group/find-enemies current-board point color)
+        ally (group/find-ally current-board point color)]
+    (and (reduce #(or %1 (> (count (:liberties %2)) 0)) true enemies)
+         (= (count (:liberties ally)) 0))))
 
-; Given current board and color of player, return a list of all atari moves on the board
-; Definition of atari: http://senseis.xmp.net/?Atari
-; (defn find-all-atari [board color] '())
+(defn legal? [board x y color]
+  (and (not (= state/ko (board/to-point x y)))
+       (not (board/out-of-bound x y))
+       (board/open? board x y)
+       (not (suicide? board x y color))))
 
+(defn all-legal-moves [board color]
+  (filter #(legal? board (board/to-x %) (board/to-y %) color) (range 0 (* state/size state/size))))
+
+; point is ko => false
+; point is out of bound => false
+; point is not empty => false
+; point can kill an adjacent enemies group => true
+; point is not suicide => true
