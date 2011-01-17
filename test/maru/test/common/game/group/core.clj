@@ -104,3 +104,19 @@
           (stone/craft 6 board/white)
           (stone/craft 7 board/black)))]
   (is (= (set [0 1 10 11]) (find-liberty current-board (set [5 6]))))))
+
+(deftest find-immediate-liberty-given-point
+  (state/set-size 5)
+  (is (= (list 1 5 7 11) (find-liberty-helper board/empty 6))))
+
+(deftest find-immediate-liberty-given-point-exclude-out-of-bounds
+  (state/set-size 5)
+  (is (= (list 1 5) (find-liberty-helper board/empty 0))))
+
+(deftest find-immediate-liberty-given-point-exclude-occupied
+  (state/set-size 5)
+  (let [current-board (board/set-stones board/empty
+    (list (stone/craft 0 board/white)
+          (stone/craft 2 board/white)
+          (stone/craft 6 board/black)))]
+  (is (= () (find-liberty-helper current-board 1)))))

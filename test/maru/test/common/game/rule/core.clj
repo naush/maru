@@ -32,14 +32,6 @@
           (stone/craft 1 board/black)))]
     (is (= true (legal? current-board 0 1 board/black)))))
 
-(deftest return-false-when-suicide
-  (state/set-size 5)
-  (let [current-board (board/set-stones board/empty
-    (list (stone/craft 0 board/white)
-          (stone/craft 2 board/white)
-          (stone/craft 6 board/white)))]
-    (is (= true (suicide? current-board 1 0 board/black)))))
-
 (deftest legal-returns-false-when-suicide
   (state/set-size 5)
   (let [current-board (board/set-stones board/empty
@@ -47,6 +39,57 @@
           (stone/craft 2 board/white)
           (stone/craft 6 board/white)))]
     (is (= false (legal? current-board 1 0 board/black)))))
+
+(deftest return-true-when-suicide
+  (state/set-size 5)
+  (let [current-board (board/set-stones board/empty
+    (list (stone/craft 0 board/white)
+          (stone/craft 2 board/white)
+          (stone/craft 6 board/white)))]
+    (is (= true (suicide? current-board 1 0 board/black)))))
+
+(deftest return-false-when-one-liberty-left
+  (state/set-size 5)
+  (let [current-board (board/set-stones board/empty
+    (list (stone/craft 0 board/white)
+          (stone/craft 3 board/white)
+          (stone/craft 6 board/white)))]
+    (is (= false (suicide? current-board 1 0 board/black)))))
+
+(deftest return-false-when-one-liberty-left-after-connected
+  (state/set-size 5)
+  (let [current-board (board/set-stones board/empty
+    (list (stone/craft 0 board/white)
+          (stone/craft 2 board/black)
+          (stone/craft 3 board/white)
+          (stone/craft 6 board/white)))]
+    (is (= false (suicide? current-board 1 0 board/black)))))
+
+(deftest return-false-when-surrounded-by-ally
+  (state/set-size 5)
+  (let [current-board (board/set-stones board/empty
+    (list (stone/craft 0 board/white)
+          (stone/craft 2 board/white)
+          (stone/craft 6 board/white)))]
+    (is (= false (suicide? current-board 1 0 board/white)))))
+
+(deftest return-false-when-surrounded-by-ally-and-one-enemy
+  (state/set-size 5)
+  (let [current-board (board/set-stones board/empty
+    (list (stone/craft 1 board/black)
+          (stone/craft 5 board/white)
+          (stone/craft 7 board/white)
+          (stone/craft 11 board/white)))]
+    (is (= false (suicide? current-board 1 1 board/white)))))
+
+(deftest legal-returns-true-when-not-suicide
+  (state/set-size 5)
+  (let [current-board (board/set-stones board/empty
+    (list (stone/craft 0 board/white)
+          (stone/craft 5 board/black)
+          (stone/craft 2 board/white)
+          (stone/craft 6 board/white)))]
+    (is (= true (legal? current-board 1 0 board/black)))))
 
 (deftest return-true-when-given-group-is-dead
   (is (= true (dead? (group/craft board/white () ())))))

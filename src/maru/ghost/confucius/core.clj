@@ -9,9 +9,8 @@
   (:require [maru.common.utility.core :as utility]))
 
 (defn random-legal-move-generator [color]
-  (let [board state/board
-        moves (rule/all-legal-moves board color)]
-    (if (empty? moves) ()
+  (let [moves (rule/all-legal-moves state/board color)]
+    (if (empty? moves) "PASS"
       (utility/string-from-point (rand-nth moves) state/size))))
 
 (defn name [] (str "Confucius"))
@@ -24,9 +23,9 @@
 
 (defn komi [points] (state/set-komi points))
 
-(defn play [color point]
-  (if (= point "PASS") ""
-  (let [point (utility/point-from-string point state/size)
+(defn play [color string]
+  (if (= string "PASS") ""
+  (let [point (utility/point-from-string string state/size)
         x (board/to-x point)
         y (board/to-y point)
         color (utility/string-to-color color)]
@@ -37,10 +36,10 @@
   (state/set-size state/size))
 
 (defn genmove [color]
-  (let [move (random-legal-move-generator color)]
-    (if (empty? move) (str "PASS")
-      (let [color (utility/string-to-color color)
-            point (utility/point-from-string move state/size)
+  (let [color (utility/string-to-color color)
+        move (random-legal-move-generator color)]
+    (if (= move "PASS") "PASS"
+      (let [point (utility/point-from-string move state/size)
             x (board/to-x point)
             y (board/to-y point)]
         (game/play state/board x y color)
