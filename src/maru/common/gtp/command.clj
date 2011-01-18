@@ -13,7 +13,7 @@
     {:name "play" :count 2}
     {:name "genmove" :count 1}))
 
-(def names (map #(:name %1) maps))
+(def names (map #(:name %) maps))
 (defn match [command-left command-right] (= command-left command-right))
 (defn valid [command] (reduce #(or %1 (match command %2)) false maps))
 

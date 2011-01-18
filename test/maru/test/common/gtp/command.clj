@@ -21,7 +21,7 @@
   (is (= "= 0.4\n" (execute "version"))))
 
 (deftest execute-by-function-name-with-args
-  (make-boardsize-command #(str "boardsize " (first %1)))
+  (make-boardsize-command #(str "boardsize " (first %)))
   (is (= "= boardsize 1\n" (execute "boardsize" "1"))))
 
 (deftest execute-by-function-name-with-default-implementation

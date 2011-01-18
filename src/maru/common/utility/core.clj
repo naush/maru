@@ -3,7 +3,7 @@
 
 (defn read-char-as-string [string index] (str (.charAt string index)))
 
-(defn split-string-at [string index] (map #(apply str %1) (split-at (inc index) string)))
+(defn split-string-at [string index] (map #(apply str %) (split-at (inc index) string)))
 
 (defn remove-string-upto [string index] (apply str (drop index string)))
 

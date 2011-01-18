@@ -10,7 +10,7 @@
         node-stream (node/split (second property-node-stream))]
         (node/create (property/parse property-stream)
                      (parse (first node-stream))
-                     (map #(parse %1) (rest node-stream))))))
+                     (map #(parse %) (rest node-stream))))))
 
 (defn dump-moves [node]
   (if (empty? node) []

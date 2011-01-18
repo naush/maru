@@ -46,6 +46,6 @@
         east [(inc x) y]
         south [x (inc y)]
         west [(dec x) y]]
-    (set (map #(+ (first %1) (* (second %1) state/size))
-      (filter #(not (out-of-bound (first %1) (second %1)))
+    (set (map #(+ (first %) (* (second %) state/size))
+      (filter #(not (out-of-bound (first %) (second %)))
         (list north east south west))))))

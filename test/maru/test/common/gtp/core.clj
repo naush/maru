@@ -31,7 +31,7 @@
   (is (= false (known_command "ver"))))
 
 (deftest implement-boardsize-and-return-boardize
-  (make-boardsize-command #(str "boardsize " (first %1)))
+  (make-boardsize-command #(str "boardsize " (first %)))
   (is (= "boardsize 1" (boardsize "1"))))
 
 (deftest parse-input-with-no-args
@@ -39,11 +39,11 @@
   (is (= "=\n" (parse "version"))))
 
 (deftest parse-input-with-arg
-  (make-boardsize-command #(str "boardsize " (first %1)))
+  (make-boardsize-command #(str "boardsize " (first %)))
   (is (= "= boardsize 19\n" (parse "boardsize 19"))))
 
 (deftest parse-input-with-multiple-args
-  (make-play-command #(str "play " (first %1) " " (second %1)))
+  (make-play-command #(str "play " (first %) " " (second %)))
   (is (= "= play B Q16\n" (parse "play B Q16"))))
 
 (deftest parse-command-with-special-character

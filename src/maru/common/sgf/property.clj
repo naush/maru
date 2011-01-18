@@ -7,7 +7,7 @@
 
 (defn parse-value [key values]
   (if (empty? values) []
-  (vec (map #(hash-map key (second %1))
+  (vec (map #(hash-map key (second %))
     (utility/even-terms (string/partition pattern/property-value values))))))
 
 (defn append-moves [properties color moves]
