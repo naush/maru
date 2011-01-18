@@ -23,11 +23,3 @@
 
 (defn all-legal-moves [board color]
   (filter #(legal? board (board/to-x %) (board/to-y %) color) (range 0 (* state/size state/size))))
-
-; point is ko => false
-; point is out of bound => false
-; point is not empty => false
-; point can kill an adjacent enemies group => true
-; point is not suicide => true
-
-; ToDo: Check if a move can take out an enemy group is it still considered legal

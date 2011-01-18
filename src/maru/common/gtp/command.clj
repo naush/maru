@@ -22,5 +22,5 @@
   (message/response (str output)))
   (catch IllegalStateException e message/error-unimplemented)
   (catch NullPointerException e message/error-unimplemented)
-  (catch IllegalArgumentException e e)
+  (catch IllegalArgumentException e message/error-syntax)
   (catch Exception e e)))
