@@ -14,11 +14,11 @@ elif [ "$1" == "launch" ]; then
   if [ "$2" == "" ]; then
     echo "maru launch [ghost name] [options: black/white/both]"
   else
-	if [ "$3" == "black" -o "$3" == "white" -o "$3" == "both" ]; then
+    if [ "$3" == "black" -o "$3" == "white" -o "$3" == "both" ]; then
       java -jar bin/shell/gogui.jar -program "java -jar bin/ghost/$2.jar" -computer-$3
     else
       java -jar bin/shell/gogui.jar -program "java -jar bin/ghost/$2.jar" -computer-black
-	fi
+    fi
   fi
 elif [ "$1" == "cleanup" ]; then
   rm -rf bin/ghost/*
