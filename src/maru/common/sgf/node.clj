@@ -23,4 +23,4 @@
             :next next
             :variations variations))
 
-(defn parse [sgf] (rest (re-find pattern/node (utility/strip-newlines sgf))))
+(defn parse [sgf] (rest (re-find pattern/node sgf)))

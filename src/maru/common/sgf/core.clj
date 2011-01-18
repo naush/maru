@@ -1,7 +1,7 @@
 (ns maru.common.sgf.core
   (:require [maru.common.sgf.node :as node])
   (:require [maru.common.sgf.property :as property])
-  (:require [clojure.contrib.string :only [partition] :as string]))
+  (:require [clojure.contrib.string :only [partition split-lines] :as string]))
 
 (defn parse [sgf]
   (if (empty? sgf) {}
@@ -16,4 +16,4 @@
   (if (empty? node) []
     (clojure.set/union (:MV (:properties node)) (dump-moves (:next node)))))
 
-(defn parse-file [path] (parse (slurp path)))
+(defn parse-file [path] (parse (apply str (string/split-lines (slurp path)))))
