@@ -1,6 +1,6 @@
 (ns maru.common.sgf.core
-  (:require [maru.common.sgf.node :as node])
-  (:require [maru.common.sgf.property :as property])
+  (:require [maru.common.sgf.node.core :as node])
+  (:require [maru.common.sgf.property.core :as property])
   (:require [clojure.contrib.string :only [partition split-lines] :as string]))
 
 (defn parse [sgf]

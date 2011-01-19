@@ -2,8 +2,8 @@
   (:refer-clojure :exclude [name])
   (:use [clojure.contrib.def :only [defmacro-]])
   (:use [clojure.string :only [split]])
-  (:require [maru.common.gtp.message :as message])
-  (:require [maru.common.gtp.command :as command]))
+  (:require [maru.common.gtp.message.core :as message])
+  (:require [maru.common.gtp.command.core :as command]))
 
 (defmacro- make-command [name block]
   `(defn ~(symbol name) [& args#]
