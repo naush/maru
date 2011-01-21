@@ -1,14 +1,14 @@
 (ns maru.common.sgf.property.core
   (:require [maru.common.sgf.pattern.core :as pattern])
-  (:require [maru.common.utility.core :as utility])
-  (:require [clojure.contrib.string :only [partition] :as string]))
+  (:require [clojure.contrib.string :only [partition] :as string])
+  (:use [maru.common.utility.core :only [even-terms]]))
 
 (defn append-value [value values] (str "[" value "]" values))
 
 (defn parse-value [key values]
   (if (empty? values) []
   (vec (map #(hash-map key (second %))
-    (utility/even-terms (string/partition pattern/property-value values))))))
+    (even-terms (string/partition pattern/property-value values))))))
 
 (defn append-moves [properties color moves]
   (assoc properties :MV (clojure.set/union (:MV properties) (parse-value color moves))))

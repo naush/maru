@@ -14,3 +14,14 @@
 (deftest set-and-get-board
   (set-board board/empty)
   (is (= board/empty board)))
+
+(deftest append-one-move-to-log
+  (empty-log)
+  (logging 0)
+  (is (= (list 0) log)))
+
+(deftest append-two-moves-to-log
+  (empty-log)
+  (logging 0)
+  (logging 1)
+  (is (= (list 0 1) log)))
