@@ -17,7 +17,7 @@
 
 (defn pattern-move-generator [color]
   (pattern/next-move
-    (pattern/from-sgf (sgf/parse "(;B[AA];W[BB](;B[CC];W[DD]))"))
+    (pattern/from-sgf (sgf/parse-file "dict/joseki/9x9/001.sgf"))
     state/log))
 
 (defn move-generator [color]

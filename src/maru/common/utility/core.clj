@@ -13,7 +13,7 @@
 
 ; ToDo: Fix the I/J bug
 
-(defn letter-to-digit [a] (- (int a) 65))
+(defn letter-to-digit [a] (- (int (Character/toUpperCase a)) 65))
 
 (defn digit-to-letter [d] (char (+ 65 d)))
 

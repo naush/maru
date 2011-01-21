@@ -8,7 +8,7 @@
 (deftest convert-sgf-node-to-pattern
   (state/set-size 5)
   (let [node (sgf/parse-file "dict/joseki/5x5/001.sgf")]
-    (is (= (list 0 6 12 18)
+    (is (= (list 0 6 12 13)
            (from-sgf node)))))
 
 (deftest given-pattern-and-consecutively-matched-log-return-next-move
