@@ -30,8 +30,8 @@
       message/error-not-found))))
 
 (defn console []
-  (loop [output (read-line)]
-    (println (parse output))
-    (if (= output "quit")
+  (loop [input (read-line)]
+    (println (parse input))
+    (if (= input "quit")
       (System/exit 0)
       (recur (read-line)))))
