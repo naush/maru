@@ -4,7 +4,7 @@
   (:use [clojure.test]))
 
 (deftest get-protocol-version
-  (is (= "2" (protocol_version))))
+  (is (= "2" (:message (protocol_version)))))
 
 (deftest set-and-get-name
   (make-name-command #(str "maru"))
@@ -16,19 +16,19 @@
 
 (deftest get-commands
   (is (= "protocol_version\nname\nversion\nknown_command\nlist_commands\nquit\nboardsize\nclear_board\nkomi\nplay\ngenmove"
-      (list_commands))))
+      (:message (list_commands)))))
 
 (deftest given-known-command-returns-true
-  (is (= true (known_command "protocol_version"))))
+  (is (= true (:message (known_command "protocol_version")))))
 
 (deftest given-last-known-command-returns-true
-  (is (= true (known_command "genmove"))))
+  (is (= true (:message (known_command "genmove")))))
 
 (deftest given-unknown-command-returns-false
-  (is (= false (known_command "unknown_command"))))
+  (is (= false (:message (known_command "unknown_command")))))
 
 (deftest given-partial-command-returns-false
-  (is (= false (known_command "ver"))))
+  (is (= false (:message (known_command "ver")))))
 
 (deftest implement-boardsize-and-return-boardize
   (make-boardsize-command #(str "boardsize " (first %)))
@@ -39,11 +39,11 @@
   (is (= "=\n" (parse "version"))))
 
 (deftest parse-input-with-arg
-  (make-boardsize-command #(str "boardsize " (first %)))
+  (make-boardsize-command #(hash-map :message (str "boardsize " (first %))))
   (is (= "= boardsize 19\n" (parse "boardsize 19"))))
 
 (deftest parse-input-with-multiple-args
-  (make-play-command #(str "play " (first %) " " (second %)))
+  (make-play-command #(hash-map :message (str "play " (first %) " " (second %))))
   (is (= "= play B Q16\n" (parse "play B Q16"))))
 
 (deftest parse-command-with-special-character

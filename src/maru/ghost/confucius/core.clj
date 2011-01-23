@@ -10,17 +10,17 @@
   (:use [maru.common.utility.core :only
   [string-from-point string-to-digit point-from-string string-to-color]]))
 
-(defn random-legal-move-generator [color]
+(defn- random-legal-move-generator [color]
   (let [moves (rule/all-legal-moves state/board color)]
     (if (empty? moves) "PASS"
       (string-from-point (rand-nth moves) state/size))))
 
-(defn pattern-move-generator [color]
+(defn- pattern-move-generator [color]
   (pattern/next-move
     (pattern/from-sgf (sgf/parse-file "dict/joseki/9x9/001.sgf"))
     state/log))
 
-(defn move-generator [color]
+(defn- move-generator [color]
   (let [move (pattern-move-generator color)]
     (if (= move -1)
       (random-legal-move-generator color)
@@ -32,9 +32,12 @@
 
 (defn boardsize [size]
   (let [size (string-to-digit size)]
-    (state/set-size size)))
+    (state/set-size size))
+  (hash-map :message state/size))
 
-(defn komi [points] (state/set-komi points))
+(defn komi [points]
+  (state/set-komi points)
+  (hash-map :message state/komi))
 
 (defn play [color string]
   (if (= string "PASS") ""
@@ -44,19 +47,21 @@
         color (string-to-color color)]
     (state/logging point)
     (game/play state/board x y color)
-    (state/set-board state/board) state/board)))
+    (state/set-board state/board)
+    (hash-map :message state/board))))
 
 (defn clear-board []
-  (state/set-size state/size))
+  (state/set-size state/size)
+  (hash-map :message state/size))
 
 (defn genmove [color]
   (let [color (string-to-color color)
         move (move-generator color)]
-    (if (= move "PASS") "PASS"
+    (if (= move "PASS") (hash-map :message "PASS")
       (let [point (point-from-string move state/size)
             x (board/to-x point)
             y (board/to-y point)]
         (state/logging point)
         (game/play state/board x y color)
         (state/set-board state/board)
-        move))))
+        (hash-map :message move)))))

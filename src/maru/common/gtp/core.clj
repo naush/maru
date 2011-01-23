@@ -17,10 +17,10 @@
 (defn make-name-command [block] (make-command "name" block))
 (defn make-version-command [block] (make-command "version" block))
 
-(defn quit [] "quit")
-(defn protocol_version [] "2")
-(defn list_commands [] (reduce #(str %1 "\n" %2) command/names))
-(defn known_command [command] (.contains command/names command))
+(defn quit [] (hash-map :message "quit"))
+(defn protocol_version [] (hash-map :message "2"))
+(defn list_commands [] (hash-map :message (reduce #(str %1 "\n" %2) command/names)))
+(defn known_command [command] (hash-map :message (.contains command/names command)))
 
 (defn parse [input]
   (let [args (split input #" ")]

@@ -17,11 +17,11 @@
   (is (= false (valid {:name "quit" :count 1}))))
 
 (deftest execute-by-function-name-with-no-args
-  (make-version-command #(str "0.4"))
+  (make-version-command #(hash-map :message "0.4"))
   (is (= "= 0.4\n" (execute "version"))))
 
 (deftest execute-by-function-name-with-args
-  (make-boardsize-command #(str "boardsize " (first %)))
+  (make-boardsize-command #(hash-map :message (str "boardsize " (first %))))
   (is (= "= boardsize 1\n" (execute "boardsize" "1"))))
 
 (deftest execute-by-function-name-with-default-implementation
