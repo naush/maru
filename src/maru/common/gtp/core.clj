@@ -17,7 +17,7 @@
 (defn make-name-command [block] (make-command "name" block))
 (defn make-version-command [block] (make-command "version" block))
 
-(defn quit [] (str "quit"))
+(defn quit [] "quit")
 (defn protocol_version [] "2")
 (defn list_commands [] (reduce #(str %1 "\n" %2) command/names))
 (defn known_command [command] (.contains command/names command))
