@@ -27,11 +27,11 @@
     (let [name (first args)]
     (if (command/valid {:name name :count (.size (rest args))})
       (command/execute name (rest args))
-      message/error-not-found))))
+      (hash-map :message message/error-not-found)))))
 
 (defn console []
   (loop [input (read-line)]
-    (println (parse input))
+    (println (:message (parse input)))
     (if (= input "quit")
       (System/exit 0)
       (recur (read-line)))))

@@ -19,8 +19,8 @@
 
 (defn execute [name & [args]]
   (try (let [output (apply (ns-resolve 'maru.common.gtp.core (symbol name)) args)]
-  (message/response (str (:message output))))
-  (catch IllegalStateException e message/error-unimplemented)
-  (catch NullPointerException e message/error-unimplemented)
-  (catch IllegalArgumentException e message/error-syntax)
-  (catch Exception e e)))
+  (assoc output :message (message/response (str (:message output)))))
+  (catch IllegalStateException e (hash-map :message message/error-unimplemented))
+  (catch NullPointerException e (hash-map :message message/error-unimplemented))
+  (catch IllegalArgumentException e (hash-map :message message/error-syntax))
+  (catch Exception e (hash-map :message e))))

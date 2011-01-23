@@ -35,27 +35,27 @@
   (is (= "boardsize 1" (boardsize "1"))))
 
 (deftest parse-input-with-no-args
-  (make-version-command #(str ""))
-  (is (= "=\n" (parse "version"))))
+  (make-version-command #(hash-map :message ""))
+  (is (= "=\n" (:message (parse "version")))))
 
 (deftest parse-input-with-arg
   (make-boardsize-command #(hash-map :message (str "boardsize " (first %))))
-  (is (= "= boardsize 19\n" (parse "boardsize 19"))))
+  (is (= "= boardsize 19\n" (:message (parse "boardsize 19")))))
 
 (deftest parse-input-with-multiple-args
   (make-play-command #(hash-map :message (str "play " (first %) " " (second %))))
-  (is (= "= play B Q16\n" (parse "play B Q16"))))
+  (is (= "= play B Q16\n" (:message (parse "play B Q16")))))
 
 (deftest parse-command-with-special-character
   (make-name-command "maru")
-  (is (= "= true\n" (parse "known_command name"))))
+  (is (= "= true\n" (:message (parse "known_command name")))))
 
 (deftest parse-invalid-name
-  (is (= "? command not found\n" (parse "suicide"))))
+  (is (= "? command not found\n" (:message (parse "suicide")))))
 
 (deftest parse-unimplemented-command-name
-  (is (= "? unimplemented\n" (parse "clear_board"))))
+  (is (= "? unimplemented\n" (:message (parse "clear_board")))))
 
 (deftest parse-command-with-illegal-arguments
-  (make-version-command #(str "version"))
-  (is (= "? command not found\n" (parse "version 1"))))
+  (make-version-command #(hash-map :message "version"))
+  (is (= "? command not found\n" (:message (parse "version 1")))))

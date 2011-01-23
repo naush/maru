@@ -18,11 +18,11 @@
 
 (deftest execute-by-function-name-with-no-args
   (make-version-command #(hash-map :message "0.4"))
-  (is (= "= 0.4\n" (execute "version"))))
+  (is (= "= 0.4\n" (:message (execute "version")))))
 
 (deftest execute-by-function-name-with-args
   (make-boardsize-command #(hash-map :message (str "boardsize " (first %))))
-  (is (= "= boardsize 1\n" (execute "boardsize" "1"))))
+  (is (= "= boardsize 1\n" (:message (execute "boardsize" "1")))))
 
 (deftest execute-by-function-name-with-default-implementation
-  (is (= "= 2\n" (execute "protocol_version"))))
+  (is (= "= 2\n" (:message (execute "protocol_version")))))
