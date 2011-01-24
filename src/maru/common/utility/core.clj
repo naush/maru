@@ -12,11 +12,13 @@
 
 (defn insert-last [ls elm] (concat ls (list elm)))
 
-; ToDo: Fix the I/J bug
+(def letter-digit { \A 0  \B 1  \C 2  \D 3  \E 4  \F 5  \G 6  \H 7 \J 8
+	                  \K 9  \L 10 \M 11 \N 12 \O 13 \P 14 \Q 15 \R 16
+	                  \S 17 \T 18 \U 19 \V 20 \W 21 \X 22 \Y 23 \Z 24 })
 
-(defn letter-to-digit [a] (- (int (Character/toUpperCase a)) 65))
+(defn letter-to-digit [a] (get letter-digit (Character/toUpperCase a)))
 
-(defn digit-to-letter [d] (char (+ 65 d)))
+(defn digit-to-letter [d] (first (filter #(= d (get letter-digit %)) (keys letter-digit))))
 
 (defn string-to-digit [s] (Integer/parseInt s))
 
