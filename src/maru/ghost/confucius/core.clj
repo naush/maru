@@ -3,6 +3,7 @@
   (:require [maru.common.game.board.core :as board])
   (:require [maru.common.gtp.core :as gtp])
   (:require [maru.common.game.core :as game])
+  (:require [maru.common.game.log.core :as log])
   (:require [maru.common.game.rule.core :as rule])
   (:require [maru.common.game.state.core :as state])
   (:require [maru.common.pattern.core :as pattern])
@@ -15,13 +16,12 @@
     (if (empty? moves) "PASS"
       (string-from-point (rand-nth moves) (:size state)))))
 
-(defn- pattern-move-generator [color size]
+(defn- pattern-move-generator [color size log]
   (pattern/next-move
-    (pattern/from-sgf (sgf/parse-file "dict/joseki/9x9/001.sgf") size)
-    state/log))
+    (pattern/from-sgf (sgf/parse-file "dict/joseki/9x9/001.sgf") size) log))
 
 (defn- move-generator [color state]
-  (let [move (pattern-move-generator color (:size state))]
+  (let [move (pattern-move-generator color (:size state) (:log state))]
     (if (= move -1)
       (random-legal-move-generator color state)
       (string-from-point move (:size state)))))
@@ -44,8 +44,9 @@
         x (board/to-x point (:size state))
         y (board/to-y point (:size state))
         color (string-to-color color)]
-    (state/logging point)
-    (assoc (game/play state x y color) :message (str "play " color " at " string)))))
+    (assoc (game/play state x y color)
+      :log (log/ging (:log state) point)
+      :message (str "play " color " at " string)))))
 
 (defn clear-board [state]
   (assoc state :message "clear"))
@@ -57,5 +58,6 @@
       (let [point (point-from-string move (:size state))
             x (board/to-x point (:size state))
             y (board/to-y point (:size state))]
-        (state/logging point)
-        (assoc (game/play state x y color) :message move)))))
+        (assoc (game/play state x y color)
+          :log (log/ging (:log state) point)
+          :message move)))))
