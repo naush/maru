@@ -7,22 +7,22 @@
 
 (defn alive? [group] (not (dead? group)))
 
-(defn suicide? [board x y color size]
-  (let [point (board/to-point x y size)
-        current-board (board/set-stone board point color)
-        enemies (group/find-enemies current-board point color size)
-        ally (group/find-ally current-board point color size)]
+(defn suicide? [color x y state]
+  (let [point (board/to-point x y (:size state))
+        current-board (board/set-stone (:board state) point color)
+        enemies (group/find-enemies current-board point color (:size state))
+        ally (group/find-ally current-board point color (:size state))]
     (and (reduce #(and %1 (> (count (:liberties %2)) 0)) true enemies)
          (= (count (:liberties ally)) 0))))
 
-(defn legal? [board x y color size ko]
-  (and (not (= ko (board/to-point x y size)))
-       (not (board/out-of-bound x y size))
-       (board/open? board x y size)
-       (not (suicide? board x y color size))))
+(defn legal? [color x y state]
+  (and (not (= (:ko state) (board/to-point x y (:size state))))
+       (not (board/out-of-bound x y (:size state)))
+       (board/open? (:board state) x y (:size state))
+       (not (suicide? color x y state))))
 
-(defn all-legal-moves [board color size ko]
-  (filter #(legal? board
-	           (board/to-x % size)
-             (board/to-y % size) color size ko)
-             (range 0 (* size size))))
+(defn all-legal-moves [color state]
+  (let [size (:size state)]
+    (filter #(legal? color
+	           (board/to-x % size) (board/to-y % size) state)
+             (range 0 (* size size)))))

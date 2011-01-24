@@ -7,7 +7,7 @@
 
 (gtp/make-name-command #(ghost/name (first %)))
 (gtp/make-version-command #(ghost/version (first %)))
-(gtp/make-  mi-command #(ghost/  mi (first %) (second %)))
+(gtp/make-komi-command #(ghost/komi (first %) (second %)))
 (gtp/make-boardsize-command #(ghost/boardsize (first %) (second %)))
 (gtp/make-play-command #(ghost/play (first %) (second %) (nth % 2)))
 (gtp/make-clear-board-command #(ghost/clear-board (first %)))

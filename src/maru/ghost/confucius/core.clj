@@ -10,21 +10,21 @@
   (:use [maru.common.utility.core :only
   [string-from-point string-to-digit point-from-string string-to-color]]))
 
-(defn- random-legal-move-generator [color size board ko]
-  (let [moves (rule/all-legal-moves board color size ko)]
+(defn- random-legal-move-generator [color state]
+  (let [moves (rule/all-legal-moves color state)]
     (if (empty? moves) "PASS"
-      (string-from-point (rand-nth moves) size))))
+      (string-from-point (rand-nth moves) (:size state)))))
 
 (defn- pattern-move-generator [color size]
   (pattern/next-move
     (pattern/from-sgf (sgf/parse-file "dict/joseki/9x9/001.sgf") size)
     state/log))
 
-(defn- move-generator [color size board ko]
-  (let [move (pattern-move-generator color size)]
+(defn- move-generator [color state]
+  (let [move (pattern-move-generator color (:size state))]
     (if (= move -1)
-      (random-legal-move-generator color size board ko)
-      (string-from-point move size))))
+      (random-legal-move-generator color state)
+      (string-from-point move (:size state)))))
 
 (defn name [state] (assoc state :message "Confucius"))
 
@@ -52,7 +52,7 @@
 
 (defn genmove [state color]
   (let [color (string-to-color color)
-        move (move-generator color (:size state) (:board state) (:ko state))]
+        move (move-generator color state)]
     (if (= move "PASS") (assoc state :message "PASS")
       (let [point (point-from-string move (:size state))
             x (board/to-x point (:size state))
