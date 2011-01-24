@@ -1,5 +1,5 @@
 (ns maru.common.utility.unit
-  (:require [maru.common.game.board.core :as board])
+  (:require [maru.common.game.color.core :as color])
   (:use [maru.common.utility.core] :reload)
   (:use [clojure.test]))
 
@@ -34,7 +34,7 @@
   (is (= "H12" (string-from-point 140 19))))
 
 (deftest convert-string-to-color
-  (is (= board/white (string-to-color "W")))
-  (is (= board/white (string-to-color "w")))
-  (is (= board/black (string-to-color "B")))
-  (is (= board/black (string-to-color "b"))))
+  (is (= color/white (string-to-color "W")))
+  (is (= color/white (string-to-color "w")))
+  (is (= color/black (string-to-color "B")))
+  (is (= color/black (string-to-color "b"))))

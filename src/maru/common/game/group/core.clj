@@ -1,5 +1,6 @@
 (ns maru.common.game.group.core
   (:require [maru.common.game.board.core :as board])
+  (:require [maru.common.game.color.core :as color])
   (:require [maru.common.utility.core :as utility]))
 
 (defn craft [color stones liberties]
@@ -12,7 +13,7 @@
 
 (defn find-liberty-helper [board point size]
   (let [neighbors (board/find-neighbors point size)]
-    (filter #(= board/open (board/color board %)) neighbors)))
+    (filter #(= color/open (board/color board %)) neighbors)))
 
 (defn find-liberty [board stones size]
   (loop [stones stones liberties ()]
@@ -36,7 +37,7 @@
   (craft color ally liberties)))
 
 (defn find-enemies [board point color size]
-  (let [color (if (= board/white color) board/black board/white)
+  (let [color (if (= color/white color) color/black color/white)
         neighbors (board/find-neighbors point size)]
     (set (reduce #(if (unique-ally? board %2 color %1)
       (merge %1 (find-ally board %2 color size)) %1) () neighbors))))

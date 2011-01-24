@@ -1,14 +1,9 @@
 (ns maru.common.game.board.core
   (:refer-clojure :exclude [empty])
+  (:require [maru.common.game.color.core :as color])
   (:require [maru.common.utility.core :as utility]))
 
-(def open 0)
-
-(def black 1)
-
-(def white 2)
-
-(defn empty [size] (vec (repeat (* size size) open)))
+(defn empty [size] (vec (repeat (* size size) color/open)))
 
 (defn to-point [x y size] (+ x (* y size)))
 
@@ -18,11 +13,11 @@
 
 (defn set-stone [board point color] (assoc board point color))
 
-(defn set-black [board point] (set-stone board point black))
+(defn set-black [board point] (set-stone board point color/black))
 
-(defn set-white [board point] (set-stone board point white))
+(defn set-white [board point] (set-stone board point color/white))
 
-(defn remove-stone [board point] (assoc board point open))
+(defn remove-stone [board point] (assoc board point color/open))
 
 (defn set-stones [board stones] (reduce #(set-stone %1 (:point %2) (:color %2)) board stones))
 
@@ -32,7 +27,7 @@
 
 (defn color [board point] (nth board point))
 
-(defn open? [board x y size] (= open (nth board (to-point x y size))))
+(defn open? [board x y size] (= color/open (nth board (to-point x y size))))
 
 (defn out-of-bound [x y size]
   (let [size (dec size)]

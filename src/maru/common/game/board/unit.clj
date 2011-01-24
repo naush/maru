@@ -1,6 +1,7 @@
 (ns maru.common.game.board.unit
   (:refer-clojure :exclude [empty])
   (:use [maru.common.game.board.core] :reload)
+  (:require [maru.common.game.color.core :as color])
   (:require [maru.common.game.stone.core :as stone])
   (:use [clojure.test]))
 
@@ -50,34 +51,34 @@
   (is (= 8 (to-y 80 9))))
 
 (deftest set-stone-at-point-with-black
-  (is (= black (nth (set-stone (empty 9) 0 black) 0))))
+  (is (= color/black (nth (set-stone (empty 9) 0 color/black) 0))))
 
 (deftest set-stone-at-point-with-white
-  (is (= white (nth (set-white (empty 9) 0) 0))))
+  (is (= color/white (nth (set-white (empty 9) 0) 0))))
 
 (deftest set-multiple-stones
   (let [current-board (set-stones (empty 9)
-    (list (stone/craft 0 white)
-          (stone/craft 1 white)))]
-    (is (= white (nth current-board 0)))
-    (is (= white (nth current-board 1)))))
+    (list (stone/craft 0 color/white)
+          (stone/craft 1 color/white)))]
+    (is (= color/white (nth current-board 0)))
+    (is (= color/white (nth current-board 1)))))
 
 (deftest remove-stone-at-point
-  (let [current-board (set-stone (empty 9) 0 black)
+  (let [current-board (set-stone (empty 9) 0 color/black)
         removed-board (remove-stone current-board 0)]
-    (is (= open (nth removed-board 0)))))
+    (is (= color/open (nth removed-board 0)))))
 
 (deftest remove-given-stones
-  (let [stone-a (stone/craft 0 white)
-        stone-b (stone/craft 1 white)
+  (let [stone-a (stone/craft 0 color/white)
+        stone-b (stone/craft 1 color/white)
         current-board (set-stones (empty 9)
           (list stone-a stone-b))
         removed-board (remove-stones current-board [0 1])]
-    (is (= open (nth removed-board 0)))
-    (is (= open (nth removed-board 1)))))
+    (is (= color/open (nth removed-board 0)))
+    (is (= color/open (nth removed-board 1)))))
 
 (deftest check-color-at-point
-  (is (= white (color (set-white (empty 9) 0) 0))))
+  (is (= color/white (color (set-white (empty 9) 0) 0))))
 
 (deftest find-neighbors-at-upper-left-corner
   (is (= (set [1 5]) (find-neighbors 0 5))))

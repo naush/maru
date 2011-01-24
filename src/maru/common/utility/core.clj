@@ -1,4 +1,5 @@
 (ns maru.common.utility.core
+	(:require [maru.common.game.color.core :as color])
   (:require [clojure.contrib.string :only [replace-str] :as string]))
 
 (defn read-char-as-string [string index] (str (.charAt string index)))
@@ -29,9 +30,8 @@
         y (- (dec size) (int (/ point size)))]
   (str (digit-to-letter x) (inc y))))
 
-; ToDo: solve circular dependency with board
 (defn string-to-color [string]
   (cond
-    (or (= "b" string) (= "B" string)) 1
-    (or (= "w" string) (= "W" string)) 2
-    :else 0))
+    (or (= "b" string) (= "B" string)) color/black
+    (or (= "w" string) (= "W" string)) color/white
+    :else color/open))
