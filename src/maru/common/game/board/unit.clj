@@ -1,7 +1,6 @@
 (ns maru.common.game.board.unit
   (:refer-clojure :exclude [empty])
   (:use [maru.common.game.board.core] :reload)
-  (:require [maru.common.game.state.core :as state])
   (:require [maru.common.game.stone.core :as stone])
   (:use [clojure.test]))
 

@@ -2,7 +2,6 @@
   (:use [maru.common.game.rule.core] :reload)
   (:require [maru.common.game.board.core :as board])
   (:require [maru.common.game.group.core :as group])
-  (:require [maru.common.game.state.core :as state])
   (:require [maru.common.game.stone.core :as stone])
   (:use [clojure.test]))
 

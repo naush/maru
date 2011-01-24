@@ -1,6 +1,5 @@
 (ns maru.common.pattern.unit
   (:require [maru.common.game.board.core :as board])
-  (:require [maru.common.game.state.core :as state])
   (:require [maru.common.sgf.core :as sgf])
   (:use [maru.common.pattern.core] :reload)
   (:use [clojure.test]))

@@ -5,7 +5,6 @@
   (:require [maru.common.game.core :as game])
   (:require [maru.common.game.log.core :as log])
   (:require [maru.common.game.rule.core :as rule])
-  (:require [maru.common.game.state.core :as state])
   (:require [maru.common.pattern.core :as pattern])
   (:require [maru.common.sgf.core :as sgf])
   (:use [maru.common.utility.core :only

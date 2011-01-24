@@ -1,6 +1,5 @@
 (ns maru.common.pattern.core
   (:require [maru.common.game.board.core :as board])
-  (:require [maru.common.game.state.core :as state])
   (:require [maru.common.sgf.core :as sgf])
   (:use [maru.common.utility.core :only [letter-to-digit]]))
 

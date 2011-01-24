@@ -1,7 +1,6 @@
 (ns maru.common.game.rule.core
   (:require [maru.common.game.board.core :as board])
-  (:require [maru.common.game.group.core :as group])
-  (:require [maru.common.game.state.core :as state]))
+  (:require [maru.common.game.group.core :as group]))
 
 (defn dead? [group] (= (count (:liberties group)) 0))
 
