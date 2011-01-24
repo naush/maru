@@ -20,8 +20,8 @@
             :else (recur source (inc index) lparens rparens nodes))))))
 
 (defn create [properties next variations]
-  (hash-map :properties properties
-            :next next
-            :variations variations))
+  {:properties properties
+   :next next
+   :variations variations})
 
 (defn parse [sgf] (rest (re-find pattern/node sgf)))

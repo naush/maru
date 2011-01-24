@@ -4,7 +4,7 @@
   (:require [maru.common.utility.core :as utility]))
 
 (defn craft [color stones liberties]
-  (hash-map :color color :stones (set stones) :liberties (set liberties)))
+  {:color color :stones (set stones) :liberties (set liberties)})
 
 (defn ally? [board neighbor color] (= color (board/color board neighbor)))
 

@@ -6,7 +6,7 @@
   (:use [clojure.test]))
 
 (deftest return-state-with-current-board
-  (let [state (play (hash-map :board (vec (repeat (* 3 3) 0)) :size 3) 0 0 color/black)]
+  (let [state (play {:board (vec (repeat (* 3 3) 0)) :size 3} 0 0 color/black)]
   (is (= [1 0 0 0 0 0 0 0 0] (:board state)))))
 
 (comment

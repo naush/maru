@@ -27,7 +27,7 @@
     (let [name (first args)]
     (if (command/valid {:name name :count (.size (rest args))})
       (command/execute name (cons state (rest args)))
-      (hash-map :message message/error-not-found)))))
+      {:message message/error-not-found}))))
 
 (defn console []
   (loop [state (parse (read-line) state/default)]
