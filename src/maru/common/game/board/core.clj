@@ -1,6 +1,5 @@
 (ns maru.common.game.board.core
   (:refer-clojure :exclude [empty])
-  (:require [maru.common.game.state.core :as state])
   (:require [maru.common.utility.core :as utility]))
 
 (def open 0)
@@ -9,13 +8,13 @@
 
 (def white 2)
 
-(def empty (vec (repeat (* state/size state/size) open)))
+(defn empty [size] (vec (repeat (* size size) open)))
 
-(defn to-point [x y] (+ x (* y state/size)))
+(defn to-point [x y size] (+ x (* y size)))
 
-(defn to-x [point] (rem point state/size))
+(defn to-x [point size] (rem point size))
 
-(defn to-y [point] (int (/ point state/size)))
+(defn to-y [point size] (int (/ point size)))
 
 (defn set-stone [board point color] (assoc board point color))
 
@@ -33,19 +32,19 @@
 
 (defn color [board point] (nth board point))
 
-(defn open? [board x y] (= open (nth board (to-point x y))))
+(defn open? [board x y size] (= open (nth board (to-point x y size))))
 
-(defn out-of-bound [x y]
-  (let [size (dec state/size)]
+(defn out-of-bound [x y size]
+  (let [size (dec size)]
     (or (< x 0) (> x size) (< y 0) (> y size))))
 
-(defn find-neighbors [point]
-  (let [x (to-x point)
-        y (int (/ point state/size))
+(defn find-neighbors [point size]
+  (let [x (to-x point size)
+        y (int (/ point size))
         north [x (dec y)]
         east [(inc x) y]
         south [x (inc y)]
         west [(dec x) y]]
-    (set (map #(+ (first %) (* (second %) state/size))
-      (filter #(not (out-of-bound (first %) (second %)))
+    (set (map #(+ (first %) (* (second %) size))
+      (filter #(not (out-of-bound (first %) (second %) size))
         (list north east south west))))))

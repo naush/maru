@@ -27,7 +27,7 @@
 (deftest convert-digit-to-letter
   (is (= 12 (string-to-digit "12"))))
 
-(deftest convert-string-to-pointition
+(deftest convert-string-to-point
   (is (= 140 (point-from-string "H12" 19))))
 
 (deftest convert-pointition-to-string

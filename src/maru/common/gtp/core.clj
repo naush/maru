@@ -2,6 +2,7 @@
   (:refer-clojure :exclude [name])
   (:use [clojure.contrib.def :only [defmacro-]])
   (:use [clojure.string :only [split]])
+  (:require [maru.common.game.state.core :as state])
   (:require [maru.common.gtp.message.core :as message])
   (:require [maru.common.gtp.command.core :as command]))
 
@@ -29,8 +30,8 @@
       (hash-map :message message/error-not-found)))))
 
 (defn console []
-  (loop [output (parse (read-line) (hash-map :message ""))]
-    (println (:message output))
-    (if (= (:message output) "= quit\n")
+  (loop [state (parse (read-line) state/default)]
+    (println (:message state))
+    (if (= (:message state) "= quit\n")
       (System/exit 0)
-      (recur (parse (read-line) output)))))
+      (recur (parse (read-line) state)))))

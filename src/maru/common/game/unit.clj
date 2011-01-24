@@ -6,21 +6,22 @@
   (:use [maru.common.game.core] :reload)
   (:use [clojure.test]))
 
-(deftest set-game-board-on-state
-  (state/set-size 3)
-  (play state/board 0 0 board/black)
-  (is (= [1 0 0 0 0 0 0 0 0] state/board)))
+(deftest return-state-with-current-board
+  (let [state (play (hash-map :board (vec (repeat (* 3 3) 0)) :size 3) 0 0 board/black)]
+  (is (= [1 0 0 0 0 0 0 0 0] (:board state)))))
+
+(comment
 
 (deftest make-multiple-moves-on-state-board
-  (state/set-size 3)
-  (play state/board 0 0 board/black)
-  (play state/board 1 0 board/white)
-  (play state/board 2 0 board/black)
+  (play state/board 0 0 board/black 3)
+  (play state/board 1 0 board/white 3)
+  (play state/board 2 0 board/black 3)
   (is (= [1 2 1 0 0 0 0 0 0] state/board)))
 
 (deftest capture-stones
-  (state/set-size 3)
-  (play state/board 0 0 board/black)
-  (play state/board 1 0 board/white)
-  (play state/board 0 1 board/white)
+  (play state/board 0 0 board/black 3)
+  (play state/board 1 0 board/white 3)
+  (play state/board 0 1 board/white 3)
   (is (= [0 2 0 2 0 0 0 0 0] state/board)))
+
+)

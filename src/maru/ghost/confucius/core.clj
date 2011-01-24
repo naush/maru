@@ -10,58 +10,52 @@
   (:use [maru.common.utility.core :only
   [string-from-point string-to-digit point-from-string string-to-color]]))
 
-(defn- random-legal-move-generator [color]
-  (let [moves (rule/all-legal-moves state/board color)]
+(defn- random-legal-move-generator [color size board ko]
+  (let [moves (rule/all-legal-moves board color size ko)]
     (if (empty? moves) "PASS"
-      (string-from-point (rand-nth moves) state/size))))
+      (string-from-point (rand-nth moves) size))))
 
-(defn- pattern-move-generator [color]
+(defn- pattern-move-generator [color size]
   (pattern/next-move
-    (pattern/from-sgf (sgf/parse-file "dict/joseki/9x9/001.sgf"))
+    (pattern/from-sgf (sgf/parse-file "dict/joseki/9x9/001.sgf") size)
     state/log))
 
-(defn- move-generator [color]
-  (let [move (pattern-move-generator color)]
+(defn- move-generator [color size board ko]
+  (let [move (pattern-move-generator color size)]
     (if (= move -1)
-      (random-legal-move-generator color)
-      (string-from-point move state/size))))
+      (random-legal-move-generator color size board ko)
+      (string-from-point move size))))
 
-(defn name [state] (hash-map :message "Confucius"))
+(defn name [state] (assoc state :message "Confucius"))
 
-(defn version [state] (hash-map :message "3.0"))
+(defn version [state] (assoc state :message "4.0"))
 
 (defn boardsize [state size]
   (let [size (string-to-digit size)]
-    (state/set-size size))
-  (hash-map :message state/size))
+    (assoc state :size size :message (str "size: " size))))
 
 (defn komi [state points]
-  (state/set-komi points)
-  (hash-map :message state/komi))
+  (assoc state :komi points
+	             :message (str "komi: " points)))
 
 (defn play [state color string]
   (if (= string "PASS") ""
-  (let [point (point-from-string string state/size)
-        x (board/to-x point)
-        y (board/to-y point)
+  (let [point (point-from-string string (:size state))
+        x (board/to-x point (:size state))
+        y (board/to-y point (:size state))
         color (string-to-color color)]
     (state/logging point)
-    (game/play state/board x y color)
-    (state/set-board state/board)
-    (hash-map :message state/board))))
+    (assoc (game/play state x y color) :message (str "play " color " at " string)))))
 
 (defn clear-board [state]
-  (state/set-size state/size)
-  (hash-map :message state/size))
+  (assoc state :message "clear"))
 
 (defn genmove [state color]
   (let [color (string-to-color color)
-        move (move-generator color)]
-    (if (= move "PASS") (hash-map :message "PASS")
-      (let [point (point-from-string move state/size)
-            x (board/to-x point)
-            y (board/to-y point)]
+        move (move-generator color (:size state) (:board state) (:ko state))]
+    (if (= move "PASS") (assoc state :message "PASS")
+      (let [point (point-from-string move (:size state))
+            x (board/to-x point (:size state))
+            y (board/to-y point (:size state))]
         (state/logging point)
-        (game/play state/board x y color)
-        (state/set-board state/board)
-        (hash-map :message move)))))
+        (assoc (game/play state x y color) :message move)))))

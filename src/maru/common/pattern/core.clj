@@ -4,40 +4,41 @@
   (:require [maru.common.sgf.core :as sgf])
   (:use [maru.common.utility.core :only [letter-to-digit]]))
 
-(defn swap [point]
-  (let [x (board/to-x point)
-        y (board/to-y point)]
-    (board/to-point y x)))
+(defn swap [point size]
+  (let [x (board/to-x point size)
+        y (board/to-y point size)]
+    (board/to-point y x size)))
 
-(defn flip-x [point]
-  (let [x (board/to-x point)
-        y (board/to-y point)]
-    (board/to-point (- (dec state/size) x) y)))
+(defn flip-x [point size]
+  (let [x (board/to-x point size)
+        y (board/to-y point size)]
+    (board/to-point (- (dec size) x) y size)))
 
-(defn flip-y [point]
-  (let [x (board/to-x point)
-        y (board/to-y point)]
-    (board/to-point x (- (dec state/size) y))))
+(defn flip-y [point size]
+  (let [x (board/to-x point size)
+        y (board/to-y point size)]
+    (board/to-point x (- (dec size) y) size)))
 
-(defn flip [point]
-  (let [x (board/to-x point)
-        y (board/to-y point)]
-    (board/to-point (- (dec state/size) x)
-                    (- (dec state/size) y))))
+(defn flip [point size]
+  (let [x (board/to-x point size)
+        y (board/to-y point size)]
+    (board/to-point (- (dec size) x)
+                    (- (dec size) y)
+                    size)))
 
-(defn sgf-move-to-point [move]
+(defn sgf-move-to-point [move size]
   (let [x (letter-to-digit (first move))
         y (letter-to-digit (second move))]
-    (board/to-point x y)))
+    (board/to-point x y size)))
 
-(defn sgf-move-to-stone [move]
+(defn sgf-move-to-stone [move size]
   (let [color (first (first move))
         move (second (first move))]
-    (sgf-move-to-point move)))
+    (sgf-move-to-point move size)))
 
-(defn from-sgf [node]
+(defn from-sgf [node size]
   (let [moves (sgf/dump-moves node)]
-    (map sgf-move-to-stone moves)))
+    (map #(sgf-move-to-stone % size) moves)))
 
 (defn next-move [pattern log]
   (cond
