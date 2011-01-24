@@ -6,8 +6,7 @@
   (:require [maru.common.gtp.command.core :as command]))
 
 (defmacro- make-command [name block]
-  `(defn ~(symbol name) [& args#]
-    (if args# (~block args#) (~block))))
+  `(defn ~(symbol name) [& args#] (~block args#)))
 
 (defn make-boardsize-command [block] (make-command "boardsize" block))
 (defn make-clear-board-command [block] (make-command "clear_board" block))
@@ -17,21 +16,21 @@
 (defn make-name-command [block] (make-command "name" block))
 (defn make-version-command [block] (make-command "version" block))
 
-(defn quit [] (hash-map :message "quit"))
-(defn protocol_version [] (hash-map :message "2"))
-(defn list_commands [] (hash-map :message (reduce #(str %1 "\n" %2) command/names)))
-(defn known_command [command] (hash-map :message (.contains command/names command)))
+(defn quit [state] (assoc state :message "quit"))
+(defn protocol_version [state] (assoc state :message "2"))
+(defn list_commands [state] (assoc state :message (reduce #(str %1 "\n" %2) command/names)))
+(defn known_command [state command] (assoc state :message (.contains command/names command)))
 
-(defn parse [input]
+(defn parse [input state]
   (let [args (split input #" ")]
     (let [name (first args)]
     (if (command/valid {:name name :count (.size (rest args))})
-      (command/execute name (rest args))
+      (command/execute name (cons state (rest args)))
       (hash-map :message message/error-not-found)))))
 
 (defn console []
-  (loop [input (read-line)]
-    (println (:message (parse input)))
-    (if (= input "quit")
+  (loop [output (parse (read-line) (hash-map :message ""))]
+    (println (:message output))
+    (if (= (:message output) "= quit\n")
       (System/exit 0)
-      (recur (read-line)))))
+      (recur (parse (read-line) output)))))

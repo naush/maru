@@ -17,12 +17,12 @@
   (is (= false (valid {:name "quit" :count 1}))))
 
 (deftest execute-by-function-name-with-no-args
-  (make-version-command #(hash-map :message "0.4"))
-  (is (= "= 0.4\n" (:message (execute "version")))))
+  (make-version-command #(assoc (first %) :message "0.4"))
+  (is (= "= 0.4\n" (:message (execute "version" (list (hash-map :message "")))))))
 
 (deftest execute-by-function-name-with-args
-  (make-boardsize-command #(hash-map :message (str "boardsize " (first %))))
-  (is (= "= boardsize 1\n" (:message (execute "boardsize" "1")))))
+  (make-boardsize-command #(assoc (first %) :message (str "boardsize " (second %))))
+  (is (= "= boardsize 1\n" (:message (execute "boardsize" (list (hash-map :message "") "1"))))))
 
 (deftest execute-by-function-name-with-default-implementation
-  (is (= "= 2\n" (:message (execute "protocol_version")))))
+  (is (= "= 2\n" (:message (execute "protocol_version" (list (hash-map :message "")))))))

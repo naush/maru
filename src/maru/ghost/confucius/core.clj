@@ -26,20 +26,20 @@
       (random-legal-move-generator color)
       (string-from-point move state/size))))
 
-(defn name [] (str "Confucius"))
+(defn name [state] (hash-map :message "Confucius"))
 
-(defn version [] (str "3.0"))
+(defn version [state] (hash-map :message "3.0"))
 
-(defn boardsize [size]
+(defn boardsize [state size]
   (let [size (string-to-digit size)]
     (state/set-size size))
   (hash-map :message state/size))
 
-(defn komi [points]
+(defn komi [state points]
   (state/set-komi points)
   (hash-map :message state/komi))
 
-(defn play [color string]
+(defn play [state color string]
   (if (= string "PASS") ""
   (let [point (point-from-string string state/size)
         x (board/to-x point)
@@ -50,11 +50,11 @@
     (state/set-board state/board)
     (hash-map :message state/board))))
 
-(defn clear-board []
+(defn clear-board [state]
   (state/set-size state/size)
   (hash-map :message state/size))
 
-(defn genmove [color]
+(defn genmove [state color]
   (let [color (string-to-color color)
         move (move-generator color)]
     (if (= move "PASS") (hash-map :message "PASS")
